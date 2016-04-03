@@ -1,9 +1,11 @@
 package rembang.patrix.movies;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -48,7 +50,10 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        (new FetchMoviesTask()).execute("popular");
+        String sortBy = PreferenceManager.getDefaultSharedPreferences(this).getString(
+                getString(R.string.sort_setting_key),
+                getString(R.string.sort_setting_default));
+        (new FetchMoviesTask()).execute(sortBy);
     }
 
     @Override
@@ -67,6 +72,7 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
 
