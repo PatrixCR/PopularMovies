@@ -10,4 +10,5 @@
     <string name="sort_setting_top_rated" translatable="false">top_rated</string>
     <string name="sort_setting_top_rated_readable">Top Rated</string>
     <string name="title_activity_detail">DetailActivity</string>
+    <string name="extra_main_intent_detail">Data</string>
 </resources>

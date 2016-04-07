@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <TextView
+            android:id="@+id/activity_detail_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/activity_detail_poster"
+            android:layout_width="match_parent"
+            android:layout_height="320dp"
+            android:layout_below="@id/activity_detail_title"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/activity_detail_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_detail_poster"
+            android:drawableLeft="@drawable/ic_star_rate_black_18dp" />
+
+        <TextView
+            android:id="@+id/activity_detail_release_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_detail_poster"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@id/activity_detail_rating"
+            android:drawableLeft="@drawable/ic_access_time_black_18dp" />
+
+        <TextView
+            android:id="@+id/activity_detail_synopsis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_detail_rating"
+            android:textAppearance="?android:textAppearanceMedium" />
+
+    </RelativeLayout>
+</ScrollView>

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -33,7 +36,6 @@ import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
 
-
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private MovieImageArrayAdapter movieAdapter;
 
@@ -45,6 +47,15 @@ public class MainActivity extends ActionBarActivity {
         movieAdapter = new MovieImageArrayAdapter(this, new ArrayList<Movie>());
         GridView moviesGrid = (GridView) findViewById(R.id.movies_grid);
         moviesGrid.setAdapter(movieAdapter);
+
+        moviesGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                intent.putExtra(getString(R.string.extra_main_intent_detail), movieAdapter.getItem(position));
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -79,13 +90,12 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private static class Movie {
+    public static class Movie implements Parcelable {
         private Uri posterUri;
         private String originalTitle;
         private String synopsis;
         private double rating;
         private String releaseDate;
-
 
         public Movie(Uri posterUri, String originalTitle, String synopsis, double rating, String releaseDate) {
             this.posterUri = posterUri;
@@ -113,6 +123,40 @@ public class MainActivity extends ActionBarActivity {
 
         public Uri getPosterUri() {
             return posterUri;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(originalTitle);
+            dest.writeString(synopsis);
+            dest.writeDouble(rating);
+            dest.writeString(releaseDate);
+            dest.writeParcelable(posterUri, flags);
+        }
+
+        public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
+            @Override
+            public Movie createFromParcel(Parcel source) {
+                return new Movie(source);
+            }
+
+            @Override
+            public Movie[] newArray(int size) {
+                return new Movie[size];
+            }
+        };
+
+        private Movie(Parcel in) {
+            originalTitle = in.readString();
+            synopsis = in.readString();
+            rating = in.readDouble();
+            releaseDate = in.readString();
+            posterUri = in.readParcelable(Uri.class.getClassLoader());
         }
     }
 
